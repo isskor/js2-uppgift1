@@ -6,7 +6,7 @@ export type TMovieTypes = 'now_playing' | 'popular' | 'top_rated';
 export type TPage = number;
 
 const moviesUrl = (type: TMovieTypes, page: number) =>
-  `https://api.themoviedb.org/3/movie/${type}/?api_key=${key}&page=${page}`;
+  `https://api.themoviedb.org/3/movie/${type}?api_key=${key}&page=${page}`;
 
 export const getNowPlaying = (page: number = 1) =>
   axios(moviesUrl('now_playing', page));
