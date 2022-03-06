@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Box from '../Box/Box';
 import { FlexBox } from '../FlexBox/FlexBox';
@@ -23,11 +23,23 @@ function constructPagination({
   const pages = [];
   let counter = 0;
 
-  if (totalPages >= pagesToShow && currentPage + pagesToShow / 2 > totalPages) {
+  if (totalPages === 1) {
+    pages.push('1');
+    return pages;
+  }
+
+  if (
+    currentPage + 1 >= pagesToShow &&
+    currentPage + pagesToShow / 2 > totalPages
+  ) {
     //   dont go above maxPages
-    counter = totalPages + 1 - (pagesToShow + currentPage);
+    counter =
+      totalPages +
+      1 -
+      (pagesToShow + currentPage - (totalPages >= pagesToShow ? 0 : 1));
   } else if (currentPage - pagesToShow / 2 < 0) {
     //   dont go below 1
+
     counter = totalPages + 1 - (totalPages + currentPage);
   } else {
     //   center current page
