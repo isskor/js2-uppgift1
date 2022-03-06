@@ -7,12 +7,24 @@ import { Text } from '../Text/Text';
 
 const Footer = () => {
   const [localList, setLocalList] = useState([]);
-  useEffect(() => {
-    function getStorage() {
-      const list = localStorage.getItem('lastVisit');
 
-      if (list) {
-        setLocalList(JSON.parse(list));
+  let list;
+  if (typeof window !== 'undefined') {
+    list = localStorage?.getItem('lastVisit');
+  }
+  useEffect(() => {
+    const list = localStorage.getItem('lastVisit');
+
+    if (list) {
+      setLocalList(JSON.parse(list));
+    }
+    function getStorage(e) {
+      if (e.key === 'lastVisit') {
+        const list = localStorage.getItem('lastVisit');
+
+        if (list) {
+          setLocalList(JSON.parse(list));
+        }
       }
     }
 
@@ -21,11 +33,11 @@ const Footer = () => {
     return () => {
       window.removeEventListener('storage', getStorage);
     };
-  }, []);
+  }, [list]);
 
-  return (
+  return localList && localList.length > 0 ? (
     <PageContainer>
-      <Text size={20}>Last Visited</Text>
+      <Text size={20}>Last Movies Visited</Text>
       <Spacer margin={20} />
       <FlexBox flexWrap gap={10}>
         {localList.map((s) => (
@@ -39,7 +51,7 @@ const Footer = () => {
         ))}
       </FlexBox>
     </PageContainer>
-  );
+  ) : null;
 };
 
 export default Footer;

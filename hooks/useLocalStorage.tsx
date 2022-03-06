@@ -23,6 +23,7 @@ const useLocalStorage = (key: string, initial = []) => {
     const newSet = [{ id, title, poster_path }, ...oldList];
     setLocalList(newSet);
     window.dispatchEvent(new Event('storage'));
+    localStorage.getItem('lastVisit');
   };
   return { localList, setStorage };
 };

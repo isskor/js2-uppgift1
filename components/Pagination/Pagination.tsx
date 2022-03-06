@@ -16,12 +16,14 @@ function constructPagination({
   pagesToShow,
 }: TBasePagination) {
   const pageAmount = Math.ceil(totalPages || 0);
+
   if (pageAmount === 0) {
     return [];
   }
   const pages = [];
   let counter = 0;
-  if (currentPage + pagesToShow / 2 > totalPages) {
+
+  if (totalPages >= pagesToShow && currentPage + pagesToShow / 2 > totalPages) {
     //   dont go above maxPages
     counter = totalPages + 1 - (pagesToShow + currentPage);
   } else if (currentPage - pagesToShow / 2 < 0) {
@@ -32,7 +34,7 @@ function constructPagination({
     counter = 0 - Math.floor(pagesToShow / 2);
   }
 
-  for (let i = 0; i < pagesToShow; i++) {
+  for (let i = 0; i < Math.min(totalPages, pagesToShow); i++) {
     pages.push(currentPage + counter);
     counter++;
   }
@@ -69,6 +71,7 @@ const Pagination: React.FC<TPagination> = ({
                 page: currentPage - 1,
               },
             }}
+            passHref
           >
             <styles.PaginationButton>page prev</styles.PaginationButton>
           </Link>
@@ -84,6 +87,7 @@ const Pagination: React.FC<TPagination> = ({
                     page: page,
                   },
                 }}
+                passHref
                 key={i}
               >
                 <styles.PaginationButton active={currentPage === page}>
@@ -101,6 +105,7 @@ const Pagination: React.FC<TPagination> = ({
                 page: currentPage + 1,
               },
             }}
+            passHref
           >
             <styles.PaginationButton>page next</styles.PaginationButton>
           </Link>
