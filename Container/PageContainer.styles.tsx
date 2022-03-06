@@ -16,4 +16,3 @@ export const BaseContainer = styled.div<TContainer>`
     padding-top: ${(props) => (props.paddingTop ? props.paddingTop : 50)}px;
   }
 `;
-sa
